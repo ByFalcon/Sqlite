@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.dam.sqlite.MainActivity.LOG;
@@ -56,14 +57,23 @@ public class GestorLugar {
 
     public List<Lugar> get(String condicion, String[] parametros){
         //todos los lugares que cumplan esa condicion
-        //...
-        return null;
+        List<Lugar> todos = new ArrayList<>();
+        Cursor cursor = getCursor(condicion, parametros);
+        while(cursor.moveToNext()){
+            todos.add(get(cursor));
+        }
+        cursor.close();
+        return todos;
     }
 
     public Lugar get(long id){
         //devuelve un lugar
-        //...
-        return null;
+        Lugar l = null;
+        List<Lugar> contactos = get(Contrato.TableLugar._ID + " = ?", new String[]{id + ""});
+        if(contactos.size()>0){
+            l = contactos.get(0);
+        }
+        return l;
     }
 
     public Cursor getCursor(){
@@ -71,8 +81,13 @@ public class GestorLugar {
     }
 
     public Cursor getCursor(String condicion, String[] parametros){
-        //...
-        return null;
+        return bd.query(Contrato.TableLugar.TABLE,
+                null,
+                condicion,
+                parametros,
+                null,
+                null,
+                Contrato.TableLugar.NOMBRE + " DESC");
     }
 
     public Cursor getCursor(long id){
@@ -97,8 +112,12 @@ public class GestorLugar {
     }
 
     public static Lugar get(Cursor c){//devolver un objeto a partir de las columnas
-        //...
-        return null;
+        Lugar lugar = new Lugar();
+        lugar.setId(c.getLong(c.getColumnIndex(Contrato.TableLugar._ID)));
+        lugar.setNombre(c.getString(c.getColumnIndex(Contrato.TableLugar.NOMBRE)));
+        lugar.setLatitud(c.getDouble(c.getColumnIndex(Contrato.TableLugar.LATITUD)));
+        lugar.setLongitud(c.getDouble(c.getColumnIndex(Contrato.TableLugar.LONGITUD)));
+        return lugar;
     }
 
     private static ContentValues contentValues(Lugar lugar){

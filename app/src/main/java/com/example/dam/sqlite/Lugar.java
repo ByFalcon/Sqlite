@@ -10,17 +10,18 @@ public class Lugar implements Parcelable {
 
     private long id;
     private double latitud, longitud;
-    private String localidad, pais;
+    private String localidad, pais, nombre;
     private String comentario;
     private int puntuacion;
     private String fecha;
 
     public Lugar() {
-        this(0,0,0,"","","",0,"");
+        this(0,"",0,0,"","","",0,"");
     }
 
-    public Lugar(long id, double latitud, double longitud, String localidad, String pais, String comentario, int puntuacion, String fecha) {
+    public Lugar(long id,String nombre, double latitud, double longitud, String localidad, String pais, String comentario, int puntuacion, String fecha) {
         this.id = id;
+        this.nombre = nombre;
         this.latitud = latitud;
         this.longitud = longitud;
         this.localidad = localidad;
@@ -30,12 +31,14 @@ public class Lugar implements Parcelable {
         this.fecha = fecha;
     }
 
+
     protected Lugar(Parcel in) {
         id = in.readLong();
         latitud = in.readDouble();
         longitud = in.readDouble();
         localidad = in.readString();
         pais = in.readString();
+        nombre = in.readString();
         comentario = in.readString();
         puntuacion = in.readInt();
         fecha = in.readString();
@@ -52,6 +55,14 @@ public class Lugar implements Parcelable {
             return new Lugar[size];
         }
     };
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public long getId() {
         return id;
@@ -143,8 +154,10 @@ public class Lugar implements Parcelable {
         dest.writeDouble(longitud);
         dest.writeString(localidad);
         dest.writeString(pais);
+        dest.writeString(nombre);
         dest.writeString(comentario);
         dest.writeInt(puntuacion);
         dest.writeString(fecha);
     }
+
 }
