@@ -34,11 +34,11 @@ public class Lugar implements Parcelable {
 
     protected Lugar(Parcel in) {
         id = in.readLong();
+        nombre = in.readString();
         latitud = in.readDouble();
         longitud = in.readDouble();
         localidad = in.readString();
         pais = in.readString();
-        nombre = in.readString();
         comentario = in.readString();
         puntuacion = in.readInt();
         fecha = in.readString();
